@@ -8,10 +8,10 @@ export function ssr(nodes){
   }
   for (let i in a) {
     let proto = ''
-    if(a[i].obfs == "none" || a[i].obfs == "") {
+    if(a[i].obfs === "none" || a[i].obfs === "") {
       a[i].obfs = 'plain'
-    } 
-    if(a[i].proto != "none" || a[i].obfs != "" || a[i].obfs != "origin") {
+    }
+    if(a[i].proto !== "none" || a[i].obfs !== "" || a[i].obfs !== "origin") {
       // a[i].proto = 'plain'
       proto = '&' + 'protoparam='
     }
@@ -19,8 +19,8 @@ export function ssr(nodes){
     let base64Pw = Buffer.from(a[i].password).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
     let group =  Buffer.from("ONESubscribe").toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
     let url = '' + a[i].host + ':' + a[i].port + ':' + a[i].proto + ':' + a[i].method 
-    + ':' + a[i].obfs + ':' + base64Pw + '/?' + 'obfsparam=' 
-    // + a[i].obfsParam 
+    + ':' + a[i].obfs + ':' + base64Pw + '/?' + 'obfsparam='
+    + a[i].obfsParam 
     +  proto
     // + a[i].protoParam 
     + '&' + 'remarks=' + remarks + '&' + 'group=' + group

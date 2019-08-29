@@ -1,5 +1,5 @@
 import * as Router from 'koa-router'
-import  axios from 'axios'
+import axios from 'axios'
 import * as fs from 'fs'
 import * as yaml from 'js-yaml'
 import * as YAML from 'json2yaml'
@@ -50,33 +50,35 @@ routers.get('/ClashX/:uuid', async (ctx, next) => {
       `
   })
   try {
-    var doc = yaml.safeLoad(fs.readFileSync(__dirname +'/clash.yml', 'utf8'));
+    var doc = yaml.safeLoad(fs.readFileSync(__dirname + '/clash.yml', 'utf8'));
   } catch (e) {
     console.log(e);
   }
   let nodes = response.data.data.getClashX
-  let group =[]
-  for(let i of nodes) {
-    if(i.type == "SSR") {
-     let ss = { 
-       name: i.info.title,
-       type: 'ss',
-       server: i.info.host,
-       port: parseInt(i.info.port),
-       cipher: i.info.method,
-       password: i.info.password }
+  let group = []
+  for (let i of nodes) {
+    if (i.type == "SSR") {
+      let ss = {
+        name: i.info.title,
+        type: 'ss',
+        server: i.info.host,
+        port: parseInt(i.info.port),
+        cipher: i.info.method,
+        password: i.info.password
+      }
       doc.Proxy.push(ss)
       group.push(i.info.title)
-    } else if(i.type == "V2RAY") {
-      let vmess = { 
-      name: i.info.ps, 
-      type: "vmess", 
-      server: i.info.add, 
-      port: parseInt(i.info.port), 
-      uuid: i.info.id, 
-      alterId: parseInt(i.info.aid), 
-      cipher: "auto" }
-      if(i.info.tls == "tls") {
+    } else if (i.type == "V2RAY") {
+      let vmess = {
+        name: i.info.ps,
+        type: "vmess",
+        server: i.info.add,
+        port: parseInt(i.info.port),
+        uuid: i.info.id,
+        alterId: parseInt(i.info.aid),
+        cipher: "auto"
+      }
+      if (i.info.tls == "tls") {
         if (i.info.net != "ws") {
           vmess["tls"] = true
         } else {
@@ -101,7 +103,7 @@ routers.get('/ClashX/:uuid', async (ctx, next) => {
   doc["Proxy Group"][0].proxies = group
   doc["Proxy Group"][1].proxies = group
   doc["Proxy Group"][2].proxies = group2
-  let res = YAML.stringify(doc) 
+  let res = YAML.stringify(doc)
   ctx.body = res
 })
 
